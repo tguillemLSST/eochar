@@ -1,1 +1,7 @@
+*.os
+*.so
+*.cfgc
 *~
+*.pyc
+utilLib.py
+*_wrap.cc
