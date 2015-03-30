@@ -1,108 +1,106 @@
+"""
+Pixel covariance calculator
 
-# coding: utf-8
-
-#get_ipython().magic(u'pylab inline')
+Compute the pixel covariance matrix on a pair of
+flat fields, taking masks into account.
+If (k,l) is the (row,col) position of a pixel,
+its pixel covariance is
+Mean(Diff(j,i)*Diff(j-l,i-k)) - Mean(Diff(j,i))*Mean(Diff(j-l,i-k))
+where Diff stands for the (flat1-flat2) array, and "*" in the
+first term is an element-wise product.
+"""
 
 from lsst.eotest.sensor.MaskedCCD import MaskedCCD
 import lsst.afw.image as afwImage
 import lsst.afw.math as afwMath
 import numpy as np
-from math import sqrt
 import os
 
-# Ideally, we make use of the standard eotest interface.
-# This requires at this stage that the 16 amps be present 
-# in the files
-file1="test_flat1.fits"
-file2="test_flat2.fits"
-if not os.path.exists(file1): simulateFlat(file1, 15000, 5, hdus=16)
-if not os.path.exists(file2): simulateFlat(file2, 15000, 5, hdus=16)
+def create_diff(ccd_1, ccd_2, amp=5):
+    """
+    returns the difference of two flat images from the sensor
+    at position amp, after standard unbiasing and trimming
+    """
+    image1 = ccd_1.unbiased_and_trimmed_image(amp)
+    image2 = ccd_2.unbiased_and_trimmed_image(amp)
 
-ccd1=MaskedCCD(file1)
-ccd2=MaskedCCD(file2)
+    #subtract the two images
+    diff_image = afwImage.MaskedImageF(image1, True)
+    diff_image -= image2
+    return diff_image
 
-if ccd1.md.get('EXPTIME') != ccd2.md.get('EXPTIME'):
-    raise RuntimeError("Exposure times for files %s, %s do not match"%(file1, file2))
+def variance_threshold_masking(fdiff, sigma):
+    """
+    simple masking based on the condition variance>sigma
+    """
+    arr = fdiff.getImage().getArray()
+    stats = afwMath.makeStatistics(fdiff, afwMath.MEDIAN | afwMath.VARIANCECLIP)
+    diffmed = stats.getValue(afwMath.MEDIAN)
+    diffvar = stats.getValue(afwMath.VARIANCECLIP)
+    thresh = sigma*np.sqrt(diffvar)
+    masked_arr = np.ma.masked_where\
+        (abs(arr-diffmed) > thresh, arr, copy=True)
+    return masked_arr
 
+def pixel_covar(arr, k_idx, l_idx, verbose):
+    """
+    compute the (k,l)-pixel covariance value
+    """
+    if k_idx == 0 and l_idx == 0:
+        return np.var(arr)
 
-#proof of concept: look only at 1 amp
-amp=5
+    nrow, ncol = arr.shape
+    temp1 = arr[l_idx:nrow, k_idx:ncol]
+    data1 = temp1.data
+    mask1 = temp1.mask
+    temp2 = arr[0:nrow-l_idx, 0:ncol-k_idx]
+    data2 = temp2.data
+    mask2 = temp2.mask
+    or_mask = np.logical_or(mask1, mask2)
+    sub1 = np.ma.MaskedArray(data1, or_mask)
+    sub2 = np.ma.MaskedArray(data2, or_mask)
+    res = (sub1*sub2).mean() - sub1.mean()*sub2.mean()
+    if verbose:
+        print res
+    return res
 
-image1 = ccd1.unbiased_and_trimmed_image(amp)
-image2 = ccd2.unbiased_and_trimmed_image(amp)
+def run_pixel_covar(ccd_1, ccd_2, amp, npix, sigma):
+    """
+    computes the npix x npix array of pixel covariance.
+    """
+    if ccd_1.md.get('EXPTIME') != ccd_2.md.get('EXPTIME'):
+        raise RuntimeError("Exposure times for files %s, %s do not match"\
+                               %(file1, file2))
 
-#subtract the two images
-fdiff = afwImage.MaskedImageF(image1, True)
-fdiff -= image2
-ncols,nrows=fdiff.getDimensions()
-fdiff_vals=fdiff.getArrays()[0]
+    #diff the 2 flats, for the given amp
+    fdiff = create_diff(ccd_1, ccd_2, amp)
 
+    #create a mask based on a simple thresholding variance
+    fdiff_mask = variance_threshold_masking(fdiff, sigma)
 
-# Create a simple mask based on thresholding the variance
-Nsigma=3
-fdiff_array = fdiff.getArrays()[0]
-diffmed  = np.median(fdiff_array)
-varclip = lambda x : afwMath.makeStatistics(x, afwMath.VARIANCECLIP).getValue()
-diffvar = varclip(fdiff)
-thresh = Nsigma*sqrt(diffvar)
-fdiff_mask = np.ma.masked_where(abs( fdiff_array-diffmed ) > thresh,fdiff_array,copy=True)
+    res_array = np.zeros((npix, npix))
+    for k in range(0, npix):
+        for l in range(0, npix):
+            res_array[k, l] = pixel_covar(fdiff_mask, k, l, verbose=False)
+    return res_array
 
-def pixel_covar():
-    for k in range(0,5):
-        for l in range(0,5):
-            if k==0 and l==0:
-                print np.var(fdiff_mask)
-            else:
-                temp1=fdiff_mask[l:nrows  ,   k:ncols]
-                data1=temp1.data
-                mask1=temp1.mask
-                temp2=fdiff_mask[0:nrows-l  , 0:ncols-k]
-                data2=temp2.data
-                mask2=temp2.mask
-                or_mask=np.logical_or(mask1,mask2)
-                npixused1=or_mask.size-or_mask.sum()
-                sub1=np.ma.MaskedArray(data1,or_mask)
-                sub2=np.ma.MaskedArray(data2,or_mask)
-                sum11=sub1.sum()
-                sum21=sub2.sum()
-                sum121=(sub1*sub2).sum()
-                #print (sum121 - sum11*sum21/npixused1)/npixused1
+if __name__ == "__main__":
 
+    from lsst.eotest.sensor.sim_tools import simulateFlat
 
-from numba import double
-from numba.decorators import jit, autojit
-numba_version = autojit(pixel_covar)
+    # create simulated flats, or use local ones if alerady created
+    file1 = "test_flat1.fits"
+    file2 = "test_flat2.fits"
+    if not os.path.exists(file1):
+        simulateFlat(file1, 15000, 5, hdus=16)
+    if not os.path.exists(file2):
+        simulateFlat(file2, 15000, 5, hdus=16)
 
-#numba_version()
-pixel_covar()
-
-# Finally compute the pixel covariance
-# Clearly the code is not good here, as the nested loop take time.
-# Proof of concept : set k and l to fixed values:
-k=1
-l=1
-i_range = range(k,ncols)
-j_range = range(l,nrows)
-
-if False:
-    sum1 = 0.; sum2 = 0.; sum12 = 0.
-    npixused = 0
-    ntotal = 0
-    for j in j_range:
-        for i in i_range:
-            ntotal += 1
-            val1 = fdiff_mask[j,i]; 
-            val2 = fdiff_mask[j-l,i-k]
-            if (val1 is not np.ma.masked) and (val2 is not np.ma.masked) :
-                #print i,j,val1,sub1[j-l,i-k],val2,sub2[j-l,i-k], sub1[j-l,i-k] is not np.ma.masked, sub2[j-l,i-k] is not np.ma.masked
-                sum1 += val1; 
-                sum2 += val2
-                sum12 += val1*val2
-                npixused += 1
+    ccd1 = MaskedCCD(file1)
+    ccd2 = MaskedCCD(file2)
 
 
-    print  (sum12 - sum1*sum2/npixused)/npixused
-    print np.var(fdiff_mask)
-    print np.var(fdiff_array)
-
+    #run the pixel covariance for 25 pixels : 5x5 (k,l) pairs
+    results = run_pixel_covar(ccd1, ccd2, amp=5, npix=5, sigma=3)
+    print results
 
