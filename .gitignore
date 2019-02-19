@@ -5,3 +5,4 @@
 *.pyc
 utilLib.py
 *_wrap.cc
+.DS_Store
