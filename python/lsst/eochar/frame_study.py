@@ -1,7 +1,23 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+###################################################################################################
+#
+# File : frame_study.py
+#
+# Auhtor : P.Antilogus
+#
+# Version : 19 Feb 2019
+#
+# Goal : this python file read raw data image , and can be used for specific sensor diagnostic like :
+#          - cte
+#          - overscan
+#          - noise
+#
+# Example : see notebooks using this package
+#
+# Remark : it is under the process to be cleaned - simplified ...but this is not my top priority today ;-) 
+#
 
 try:
     import pyfits
@@ -760,7 +776,8 @@ def cte_example():
     for ch in range(16) :
         cte_data.plot_extra(ch=ch,ccd_name=selection,nf=0,on_screen=True)
 
-def fft_it(h_all,channel=range(1,17),fplot=True,mean=False,start=1,int_pixel=1.8e-6,int_line=30.e-6,verbose=0,legend=True,xboundary=(20,500),yboundary=(30,2000),label='',color_v=None,two=True) :
+
+def fft_noise(h_all,channel=range(1,17),fplot=True,mean=False,start=1,int_pixel=1.8e-6,int_line=30.e-6,verbose=0,legend=True,xboundary=(20,500),yboundary=(30,2000),label='',color_v=None,two=True,axes=None,index=None) :
     cmap=plt.get_cmap('nipy_spectral')
     colors=[cmap(j)[:3] for j in np.linspace(0,1,17)]
     if color_v != None :
@@ -775,29 +792,29 @@ def fft_it(h_all,channel=range(1,17),fplot=True,mean=False,start=1,int_pixel=1.8
     freq_x  = np.fft.rfftfreq(nb_c, d=int_pixel)[start:]
     freqf_x = np.flipud(1./np.fft.rfftfreq(nb_c,1)[start:])
     noise=np.zeros((nb_channel))
-    if two :
-        fig=plt.figure(figsize=[20,10])
-    for i_h  in range(nb_file) :
-        h=h_all[i_h]
-        # image area
-        first_line,first_p_over,first_col,first_s_over=image_area(h)
-        first_good_overs=first_s_over+2
-        first_good_overp=first_p_over+2
+    #   
+    # image area
+    first_line,first_p_over,first_col,first_s_over=image_area(h_all[0])
+    first_good_overs=first_s_over+2
+    first_good_overp=first_p_over+2
+    #
+    for ich in range(nb_channel) :
+        ch=int(channel[ich])
+        for i_h  in range(nb_file) :
+            h=h_all[i_h]
+            #
+            if i_h==0 :
+                (n_y,n_x)=np.shape(h[1].data)
+                 #delta time between 2 pixels from 2 # lines
+                delta_line=int_pixel*n_x+int_line
+                freq_y  = np.fft.rfftfreq(nb_l, d=delta_line)[start:]
+                freqf_y = np.flipud(1./np.fft.rfftfreq(nb_l,d=delta_line/int_pixel)[start:])
+                freq=np.append(freq_y,freq_x)
+                freqf=np.append(freqf_x,freqf_y)
         #
-        if i_h==0 :
-            (n_y,n_x)=np.shape(h[1].data)
-            #delta time between 2 pixels from 2 # lines
-            delta_line=int_pixel*n_x+int_line
-            freq_y  = np.fft.rfftfreq(nb_l, d=delta_line)[start:]
-            freqf_y = np.flipud(1./np.fft.rfftfreq(nb_l,d=delta_line/int_pixel)[start:])
-            freq=np.append(freq_y,freq_x)
-            freqf=np.append(freqf_x,freqf_y)
-        #
-        for ich in range(nb_channel) :
-            ch=int(channel[ich])
             mean_line=np.median(h[ch].data[yboundary[0]:yboundary[1],:],axis=0)
             mean_column=np.median(h[ch].data[:,xboundary[0]:xboundary[1]],axis=1)
-            if (ich==0 and i_h==0) or not(mean) :
+            if (ich==0 and i_h==0) or ( not(mean) and i_h==0 )  :
                 ff_x=np.zeros((int(nb_c/2)))
                 ff_y=np.zeros((int(nb_l/2)))
             for l in range(yboundary[0],yboundary[1]) :
@@ -810,37 +827,47 @@ def fft_it(h_all,channel=range(1,17),fplot=True,mean=False,start=1,int_pixel=1.8
                 ff_y+=np.absolute(np.fft.rfft(to_fft))[start:]
             noise[ich]+=(h[ch].data[yboundary[0]:yboundary[1],first_good_overs:].std())**2
             if verbose>1 : print ('channel %d noise %3.3f  Overscan dispersion = %3.3f '%(ch,h[ch].data[yboundary[0]:yboundary[1],first_good_overs:].std(),(h[ch].data[yboundary[0]:yboundary[1],first_good_overs:].mean(axis=1)).std()))
-            if (i_h==nb_file-1 and ich==len(channel)-1) or not(mean) :
+            if (i_h==nb_file-1)  and ( ich==len(channel)-1 or not(mean) )     :
                 if mean :
                     # en fait on doit / par le nombr d bin de la fft , pas du signal ...facteur 2 ? 
-                    ff_xn=ff_x/nb_l/nb_c/nb_file/nb_channel
+                    ff_xn=ff_x/nb_l/nb_c/nb_file/nb_channel/2.
                     ff_yn=ff_y/nb_l/nb_c/nb_file/nb_channel
                     xnorm=np.append(ff_yn,ff_xn)
                     label_ch=label+'<'+','.join(map(str,channel))+'>'
                 else :
-                    ff_xn=ff_x/nb_l/nb_c/nb_file
+                    ff_xn=ff_x/nb_l/nb_c/nb_file/2.
                     ff_yn=ff_y/nb_l/nb_c/nb_file
                     xnorm=np.append(ff_yn,ff_xn)
-                    label_ch=label+'%d' % (ch-1)
+                    label_ch=label+'%d' % (ch)
                 if fplot :
                     if two :
-                        ax=fig.add_subplot(2,1,1)
-                        plt.plot(freq_x,ff_xn,label=label_ch,color=colors[color_val[ich]])
-                        ax=fig.add_subplot(2,1,2)
-                        plt.plot(freq_y,ff_yn,label=label_ch,color=colors[color_val[ich]])
+                        if index!=None :
+                            axes[index[0]].plot(freq_x,ff_xn,label=label_ch,color=colors[color_val[ich]])
+                            axes[index[1]].plot(freq_y,ff_yn,label=label_ch,color=colors[color_val[ich]])
+                        else : 
+                            plt.plot(freq_x,ff_xn,label=label_ch,color=colors[color_val[ich]])
+                            plt.plot(freq_y,ff_yn,label=label_ch,color=colors[color_val[ich]])
                     else : 
-                        plt.plot(freq,xnorm,label=label_ch,color=colors[color_val[ich]])
+                        if index!=None :
+                            axes[index[0]].plot(freq,xnorm,label=label_ch,color=colors[color_val[ich]])
+                        else :
+                            plt.plot(freq,xnorm,label=label_ch,color=colors[color_val[ich]])
                 else :
                     if two :
                         ff_xnf=np.flipud(ff_xn)
                         ff_ynf=np.flipud(ff_yn)
-                        ax=fig.add_subplot(2,1,1)
-                        plt.plot(freqf_x,ff_xnf,label=label_ch,color=colors[color_val[ich]])
-                        ax=fig.add_subplot(2,1,2)
-                        plt.plot(freqf_y,ff_ynf,label=label_ch,color=colors[color_val[ich]])
+                        if index!=None :
+                            axes[index[0]].plot(freqf_x,ff_xnf,label=label_ch,color=colors[color_val[ich]])
+                            axes[index[1]].plot(freqf_y,ff_ynf,label=label_ch,color=colors[color_val[ich]])
+                        else :
+                            plt.plot(freqf_x,ff_xnf,label=label_ch,color=colors[color_val[ich]])
+                            plt.plot(freqf_y,ff_ynf,label=label_ch,color=colors[color_val[ich]])
                     else : 
                         xnormf=np.flipud(xnorm)
-                        plt.plot(freqf,xnormf,label=label_ch,color=colors[color_val[ich]])
+                        if index!=None :
+                            axes[index[0]].plot(freqf,xnormf,label=label_ch,color=colors[color_val[ich]])
+                        else :
+                            plt.plot(freqf,xnormf,label=label_ch,color=colors[color_val[ich]])
                 if verbose :
                     argsort=np.argsort(xnorm)
                     sort=np.sort(xnorm)
@@ -865,20 +892,12 @@ def fft_it(h_all,channel=range(1,17),fplot=True,mean=False,start=1,int_pixel=1.8
                 plt.xlabel('Noise in Hz')
             else :
                 plt.xlabel('Noise Period in Pixel(s)')
-           # if fplot :
-           #     text='Hz (sampling = %g s)' % (int_pixel)
-           #     plt.xlabel(text)
-           #     plt.ylabel('fft')
-           # else :
-           #     plt.xlabel('Noise Period in Pixel(s)')
-           #     plt.ylabel('fft')
-            #plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
             plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
-        #if not(fplot) :
-        plt.xscale('log')
-        plt.yscale('log')
+        #plt.xscale('log')
+        #plt.yscale('log')
     noise=np.sqrt(noise/nb_file)
     return freq,xnorm,noise
+
 
 
 def for_ever(top_dir='/data/frames',do_fft=False,do_cte=False,xboundary=(20,500),yboundary=(30,2000),gain=[1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.]) : 
