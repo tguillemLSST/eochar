@@ -7,7 +7,7 @@
 #
 # Auhtor : P.Antilogus
 #
-# Version : 19 Feb 2019
+# Version : 21 Feb 2019
 #
 # Goal : this python file read raw data image , and can be used for specific sensor diagnostic like :
 #          - cte
@@ -572,8 +572,6 @@ class cte :
         #
         root_plt='%s_ch%d' % (ccd_name,ch)
         xx=[max(np.min(self.cte_flux_s[:,nf:self.lmax[ch]])*.9,10.),min(2.0e5,np.max(self.cte_flux_s[:,nf:self.lmax[ch]])*1.1)]
-        yv=5.0e-6
-        yy=[yv,yv]
         #
         #
         pix_col=['b','c']
@@ -582,8 +580,12 @@ class cte :
         x=range(self.first,self.first+28)
         if self.serie :
             title="CTE Serial : %s channel %d " % (ccd_name,ch+1)
+            yv=5.0e-6
         else : 
             title="CTE // : %s channel %d " % (ccd_name,ch+1)
+            yv=3.0e-6
+        yy=[yv,yv]
+
         fig.suptitle(title)
         iplt=1
         ax=fig.add_subplot(3,3,iplt)
