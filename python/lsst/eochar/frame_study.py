@@ -7,7 +7,7 @@
 #
 # Auhtor : P.Antilogus
 #
-# Version : 21 Feb 2019
+# Version : 22 Feb 2019
 #
 # Goal : this python file read raw data image , and can be used for specific sensor diagnostic like :
 #          - cte
@@ -474,7 +474,8 @@ class cte :
                     if ch==0 :
                          # print ('%s ,time %f, Channel %d,  flux %f (flux last col %f) , image %f ,  signal dispersion %f , scan serie %f , scan serie dispersion %f ' % (f.filename,f.exptime,ch,f.Mean[ch]-f.MeanSScan[ch],f.fluxs_last[ch][0],f.Mean[ch], f.Std[ch],f.MeanSScan[ch],f.StdSScan[ch]))
                         self.first=f.first_s_over
-                        self.nb_pixel=f.first_s_over-f.first_col
+                        # what matter in the CTE def is how many transfer you did for the last column read , which is the size of the pre-scan + size of the image (in the past we subtracted the prescan which is an error) 
+                        self.nb_pixel=f.first_s_over
                         self.nb_file[i_cur]+=1
                     flux_last=f.fluxs_last[ch][0]
                     #
@@ -488,7 +489,7 @@ class cte :
                     if ch==0 :
                         # print ('%s ,time % f, Channel %d,  flux %f (flux last line %f) , image %f ,  signal dispersion %f , scan //  %f , scan // dispersion %f ' % (f.filename,f.exptime,ch,f.Mean[ch]-f.MedPScan[ch],f.fluxp_last[ch][0],f.Mean[ch], f.Std[ch],f.MedPScan[ch],f.StdPScan[ch]))
                         self.first=f.first_p_over
-                        self.nb_pixel=f.first_p_over-f.first_line
+                        self.nb_pixel=f.first_p_over
                         self.nb_file[i_cur]+=1
                     flux_last=f.fluxp_last[ch][0]
                     #
