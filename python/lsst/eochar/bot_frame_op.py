@@ -227,8 +227,8 @@ class actfile :
                     INb=np.zeros((nstepy,nstepx))
                     ystart=first_line+10
                     ystep=int((first_p_over-first_line-20)/nstepy)
-                    xstart=cur_file.first_col+10
-                    xstep=int((cur_file.first_s_over-cur_file.first_col-20)/nstepx)
+                    xstart=first_col+10
+                    xstep=int((first_s_over-first_col-20)/nstepx)
                     #
                     for iy in range(nstepy) :
                         for ix in range(nstepx) :
