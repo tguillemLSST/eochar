@@ -159,6 +159,8 @@ class actfile :
         # next line need care , as the memory will grow quickly
         #self.fits=np.copy(fitsfile)
         self.Image=[]
+        self.OverCol=[]
+        self.OverLine=[]
         self.Mean=[]
         self.Var=[]
         self.Nb=[]
@@ -220,6 +222,8 @@ class actfile :
                 # 2D correction of the overscan : 1 overscan subtracted per line , 1 overscan subtracted per column
                 if not(Slow) : 
                     self.Image.append(fitsfile[i].data-over_cor_mean)
+                    self.OverCol.append(mean_over_per_column)
+                    self.OverLine.append(mean_over_per_line)
                 else :
                     Image_single=fitsfile[i].data-over_cor_mean
                     IMean=np.zeros((nstepy,nstepx))
