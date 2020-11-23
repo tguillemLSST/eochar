@@ -788,9 +788,9 @@ class cte :
         #
         if on_screen : plt.show()
         if self.serie :
-            plotfile=root_plt+'/cte_serial.jpg' 
+            plotfile=root_plt+'/cte_serial.png' 
         else :
-            plotfile=root_plt+'/cte_parallel.jpg'            
+            plotfile=root_plt+'/cte_parallel.png'            
         fig.savefig(plotfile)
         if not(on_screen) : plt.close(fig)
         return
