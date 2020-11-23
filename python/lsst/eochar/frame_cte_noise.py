@@ -612,7 +612,7 @@ class cte :
         #
         pix_col=['b','c']
         pix_sym=['<','>']
-        fig=plt.figure(figsize=(20,20))
+        fig=plt.figure(figsize=(10,10))
         x=range(self.first,self.first+28)
         if self.serie :
             title="CTI Serial : "+label_header
