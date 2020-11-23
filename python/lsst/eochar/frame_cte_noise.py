@@ -604,7 +604,7 @@ class cte :
         '''
         #
         root_plt=os.path.join(root_dir,self.first_file.raftbay,self.first_file.ccdslot,str(self.first_file.Hdu[ch])) 
-        label_header=ccd_name+' '+self.first_file.raftbay+' '+self.first_file.ccdslot+' '+self.first_file.Image[ch]+' (hdu='+self.first_file.Hdu[ch]+')'
+        label_header=ccd_name+' '+self.first_file.raftbay+' '+self.first_file.ccdslot+' '+self.first_file.Image[ch]+' (hdu='+str(self.first_file.Hdu[ch])+')'
         # create the directorty
         os.makedirs(root_plt,exist_ok=True)
         # 
