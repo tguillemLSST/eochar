@@ -282,6 +282,7 @@ class datafile :
         #
         self.Image=[]
         self.Hdu=[]
+        self.HduMax=0
         self.fft=[]
         self.w=[]
         self.Mean=[]
@@ -341,6 +342,7 @@ class datafile :
         for i in range(1,min(17,len(fitsfile))):
             if ('EXTNAME' in fitsfile[i].header ) :
                 self.Hdu.append(i)
+                self.HduMax=i
                 # Remark : for the moment we don't which REB slice we are looki 
                 #  for e2v and BNL  data it's [8:]
                 # self.Channel.append(int(fitsfile[i].header['EXTNAME'][8:]))
@@ -479,7 +481,7 @@ class cte :
                 self.cte_ftime[i_cur]=im_flux
                 self.cte_time[i_cur]=f.exptime
                 self.i_f+=1
-            for ch in range(16) :
+            for ch in range(f.HduMax) :
                 if serie :
                     # CTE serie
                     if ch==0 :
@@ -515,7 +517,8 @@ class cte :
         l_ft=len(ft)
         #print('order in time ',ft)
         self.lmax=np.zeros((16),dtype=np.int16)
-        for ch in range(16) :
+        # we take the number of amplifiers from the last file read 
+        for ch in range(f.HduMax) :
             l_k=0
             cte_sig=np.zeros((l_ft))
             #for l in fl[ch,:] :
