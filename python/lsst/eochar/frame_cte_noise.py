@@ -455,10 +455,15 @@ class cte :
         self.overscan_std=np.zeros((16,nb_f_max))
         self.over8_18=np.zeros((16,nb_f_max))
         self.over8_18_std=np.zeros((16,nb_f_max))
-        #
-        cte_noise_std=np.zeros((16,nb_f_max,28))
         # pixel number in unit of CCD 
         self.i_f=0
+        #
+        if nb_f_max==0 : return
+        #
+        self.first_file=all_file[0]
+        #
+        cte_noise_std=np.zeros((16,nb_f_max,28))
+        #
         for f in all_file :
             im_flux=np.median(np.array(f.Median))
             if self.i_f>0 and f.exptime in self.cte_time[0:self.i_f] :
@@ -598,8 +603,8 @@ class cte :
                                 (default = '.' , directory used to save the plots will be ./raft_name/ccd_name/ch/ )
         '''
         #
-        root_plt=os.path.join(root_dir,self.raftbay,self.ccdslot,str(self.Hdu[ch])) 
-        label_header=ccd_name+' '+self.raftbay+' '+self.ccdslot+' '+self.Image[ch]+' (hdu='+self.Hdu[ch]+')'
+        root_plt=os.path.join(root_dir,self.first_file.raftbay,self.first_file.ccdslot,str(self.first_file.Hdu[ch])) 
+        label_header=ccd_name+' '+self.first_file.raftbay+' '+self.first_file.ccdslot+' '+self.first_file.Image[ch]+' (hdu='+self.first_file.Hdu[ch]+')'
         # create the directorty
         os.makedirs(root_plt,exist_ok=True)
         # 
