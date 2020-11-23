@@ -598,8 +598,7 @@ class cte :
                                 (default = '.' , directory used to save the plots will be ./raft_name/ccd_name/ch/ )
         '''
         #
-        root_plt=os.path.join(root_dir,self.raftbay,self.ccdslot,str(self.Hdu[ch]))
-        if len(self.raftbay)> 0 : 
+        root_plt=os.path.join(root_dir,self.raftbay,self.ccdslot,str(self.Hdu[ch])) 
         label_header=ccd_name+' '+self.raftbay+' '+self.ccdslot+' '+self.Image[ch]+' (hdu='+self.Hdu[ch]+')'
         # create the directorty
         os.makedirs(root_plt,exist_ok=True)
