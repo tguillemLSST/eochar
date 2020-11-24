@@ -767,7 +767,7 @@ class cte :
                 # first test to only plot result for point different enough , second test to be sure that we have already selected something , third test (l<lamx[ch] )   to avoid to plot too saturated guy
                 if im>1 :
                     label="%5.1f in %s" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
-                else
+                else :
                     label="%5.1f" % (self.cte_flux_s[ch,l_last:l].mean(axis=0))
                 yplt=self.cte_y_s[ch,l_last:l,:].mean(axis=0)
                 y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
