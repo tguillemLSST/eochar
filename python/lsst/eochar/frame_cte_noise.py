@@ -721,6 +721,7 @@ class cte :
         plt.ylim(min(np.min(self.over8_18[ch,nf:self.lmax[ch]])*1.2,-0.5),min(10.,max(0.5,np.max(self.over8_18[ch,nf:max(nf+1,self.lmax[ch]-1)])*1.5)))
         plt.legend(loc=2)       
         ax=fig.add_subplot(3,3,iplt)
+        ax.yaxis.set_label_position("right")
         iplt+=1
         plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.overscan_std[ch,nf:self.lmax[ch]],'<',label='Frame Corner Noise')
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
@@ -736,10 +737,10 @@ class cte :
             pass
         if self.serie :
             plt.xlabel('<flux> of last column in '+unit)
-            plt.ylabel('Noise in '+unit+' in serial Overscan')
+            plt.ylabel('Noise from Serial Overscan in '+unit)
         else :
             plt.xlabel('<flux> of last line in '+unit)
-            plt.ylabel('Noise in '+unit+' in // Overscan')
+            plt.ylabel('Noise from // Overscan in '+unit)
         plt.xscale('log')
         ymin_cc=3.
         ymax_cc=max(min(30.,np.max(self.cte_noise_s[ch,nf:max(nf+1,self.lmax[ch]-2)])*1.2),10.)
@@ -764,7 +765,7 @@ class cte :
         for l in range(nf,self.lmax[ch]) :
             if ((self.cte_flux_s[ch,l_last]/self.cte_flux_s[ch,l] < 0.9 ) and ( l_last < l )) :
                 # first test to only plot result for point different enough , second test to be sure that we have already selected something , third test (l<lamx[ch] )   to avoid to plot too saturated guy  
-                label="signal %5.1f %s" % (self.cte_flux_s[ch,l_last:l].mean(axis=0),unit)
+                label="%5.1f" % (self.cte_flux_s[ch,l_last:l].mean(axis=0))
                 yplt=self.cte_y_s[ch,l_last:l,:].mean(axis=0)
                 y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
                 y_max=max(min(np.max(yplt)*1.2,100.),y_max)
@@ -778,7 +779,8 @@ class cte :
                         plt.xlabel('column number (serial overscan)')
                     else :
                         plt.xlabel('line number (// overscan)')
-                    plt.ylabel('signal in '+unit)
+                    if im==0 or im==1 :
+                        plt.ylabel('signal in '+unit)
                     ymax=max(y_max,y_min+1.)
                     plt.ylim(y_min,y_max)
                     if y_max>80. :
@@ -787,9 +789,9 @@ class cte :
                     if im == 0 :
                         ax.yaxis.set_label_position("right")
                         ax.yaxis.tick_right()
-                        plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
-                    else :
-                        plt.legend()
+                    #    plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
+                    #else :
+                    plt.legend()
                     ax=fig.add_subplot(3,3,iplt)
                     iplt+=1
                     y_min=0
