@@ -592,7 +592,7 @@ class cte :
         print('---------------------------------------------------------------------------------------------------------')
         return
                 
-    def plot_cte(self,ch,ccd_name,nf=0,on_screen=False,root_dir='.') :
+    def plot_cte(self,ch,ccd_name,nf=0,on_screen=False,root_dir='.',unit='e-') :
         '''
         plot_cte(self,ch,ccd_name,nf=0,on_screen=False,root_dir='.')
 
@@ -607,6 +607,7 @@ class cte :
              on_screen (bool) :  do we plot on display (or just save png on disk ) (default=False)
              root_dir  (str)  : top directory to save directory tree with plots
                                 (default = '.' , directory used to save the plots will be ./raft_name/ccd_name/ch/ )
+             unit      (str)  : unit of flux used ( e- or ADU ) 
         '''
         #
         root_plt=os.path.join(root_dir,self.first_file.raftbay,self.first_file.ccdslot,str(self.first_file.Hdu[ch])) 
@@ -629,20 +630,23 @@ class cte :
         yy=[yv,yv]
 
         fig.suptitle(title)
+        #fig.tight_layout()
         iplt=1
         ax=fig.add_subplot(3,3,iplt)
+        ax.xaxis.set_label_position('top')
+        ax.xaxis.tick_top()
         iplt+=1
         #ylev=(self.cte_y_s[ch,nf:self.lmax[ch],0]+self.cte_y_s[ch,nf:self.lmax[ch],1])/self.cte_flux_s[ch,nf:self.lmax[ch]]/float(self.nb_pixel)
-        label='%02d' % ch
+        label='%02d' % self.first_file.Hdu[ch]
         #plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.ylev[ch,nf:self.lmax[ch]],'o',color='r',label=label)
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],self.ylev[ch,nf:self.lmax[ch]], yerr=self.ylev_std[ch,nf:self.lmax[ch]],fmt='o', ecolor='r',label=label)
         #print(self.ylev[ch,nf:self.lmax[ch]])
         #print(self.ylev_std[ch,nf:self.lmax[ch]])
         plt.plot(xx,yy,'g')
         if self.serie :
-            plt.xlabel('<flux> of last column in e-')
+            plt.xlabel('<flux> of last column in '+unit)
         else :
-            plt.xlabel('<flux> of last line in e-')
+            plt.xlabel('<flux> of last line in '+unit)
         plt.xlim(xx[0],xx[1])
         y_min=min(max(int(np.min(self.ylev[ch,nf:self.lmax[ch]])*500)/100.,1.e-8),1e-7)
         y_max=5e-5
@@ -653,6 +657,8 @@ class cte :
         # plt.locator_params(axis="both", tight=True, nbins=10)
         plt.legend()
         ax=fig.add_subplot(3,3,iplt)
+        ax.xaxis.set_label_position('top')
+        ax.xaxis.tick_top()
         iplt+=1
         y_min=1.
         y_max=0
@@ -665,10 +671,10 @@ class cte :
             plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],ylev,pix_sym[pix],color=pix_col[pix],label=label)
         plt.plot(xx,yy,'g')
         if self.serie :
-            plt.xlabel('<flux> of last column in e-')
+            plt.xlabel('<flux> of last column in '+unit)
         else :
-            plt.xlabel('<flux> of last line in e-')
-        plt.ylabel('1-CTE')
+            plt.xlabel('<flux> of last line in '+unit)
+        #plt.ylabel('1-CTE')
         y_min=min(max(y_min*.5,1.e-8),5e-7)
         y_max=max(y_max*1.5,1e-5)
         plt.ylim(y_min,y_max)
@@ -677,15 +683,19 @@ class cte :
         plt.xlim(xx[0],xx[1])
         plt.legend()
         ax=fig.add_subplot(3,3,iplt)
+        ax.xaxis.set_label_position('top')
+        ax.xaxis.tick_top()
+        ax.yaxis.set_label_position("right")
+        ax.yaxis.tick_right()
         iplt+=1
         for pix in range(2) : 
             label="pix + %d " % (pix+1)
             plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.cte_y_s[ch,nf:self.lmax[ch],pix],pix_sym[pix],color=pix_col[pix],label=label)
         if self.serie :
-            plt.xlabel('<flux> of last column in e-')
+            plt.xlabel('<flux> of last column in '+unit)
         else :
-            plt.xlabel('<flux> of last line in e-')
-        plt.ylabel('signal in overscan pixel(s) in e-')
+            plt.xlabel('<flux> of last line in '+unit)
+        plt.ylabel('signal in overscan pixel(s) in '+unit)
         plt.xscale('log')
         plt.yscale('symlog')
         plt.xlim(xx[0],xx[1])
@@ -701,20 +711,20 @@ class cte :
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
                       self.over8_18[ch,nf:self.lmax[ch]],yerr=self.over8_18_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Signal in Overscan[8:18]')
         if self.serie :
-            plt.xlabel('Flux level in e- (last pixel prior to Overscan) ')
-            plt.ylabel('signal in e- in serial Overscan (8:18)')
+            plt.xlabel('<flux> of last column in '+unit)
+            plt.ylabel('signal in '+unit+' in serial Overscan')
         else :
-            plt.xlabel('Flux level in e- (last line prior to Overscan) ')
-            plt.ylabel('signal in e- in // Overscan (8:18)')
+            plt.xlabel('<flux> of last line in '+unit)
+            plt.ylabel('signal in '+unit+' in // Overscan')
         
         plt.xscale('log')
         plt.ylim(min(np.min(self.over8_18[ch,nf:self.lmax[ch]])*1.2,-0.5),min(10.,max(0.5,np.max(self.over8_18[ch,nf:max(nf+1,self.lmax[ch]-1)])*1.5)))
         plt.legend(loc=2)       
         ax=fig.add_subplot(3,3,iplt)
         iplt+=1
-        plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.overscan_std[ch,nf:self.lmax[ch]],'<',label='Noise in non-image line')
+        plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.overscan_std[ch,nf:self.lmax[ch]],'<',label='Frame Corner Noise')
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
-                     self.cte_noise_s[ch,nf:self.lmax[ch]],yerr=self.cte_noise_s_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Noise from Overscan')
+                     self.cte_noise_s[ch,nf:self.lmax[ch]],yerr=self.cte_noise_s_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Image Frame Noise')
         try :
             mean_noiseV=np.array([self.cte_noise_s[ch,ii]   for ii in range(nf,self.lmax[ch])   if self.cte_flux_s[ch,ii] > 1000 and self.cte_flux_s[ch,ii] < 50000])
             if len(mean_noiseV)>0 : 
@@ -725,11 +735,11 @@ class cte :
         except :
             pass
         if self.serie :
-            plt.xlabel('Flux level in e- (last pixel prior to Overscan) ')
-            plt.ylabel('Noise in e- in serial Overscan (2:28)')
+            plt.xlabel('<flux> of last column in '+unit)
+            plt.ylabel('Noise in '+unit+' in serial Overscan')
         else :
-            plt.xlabel('Flux level in e- (last line prior to Overscan) ')
-            plt.ylabel('Noise in e- in // Overscan (2:28)')
+            plt.xlabel('<flux> of last line in '+unit)
+            plt.ylabel('Noise in '+unit+' in // Overscan')
         plt.xscale('log')
         ymin_cc=3.
         ymax_cc=max(min(30.,np.max(self.cte_noise_s[ch,nf:max(nf+1,self.lmax[ch]-2)])*1.2),10.)
@@ -754,7 +764,7 @@ class cte :
         for l in range(nf,self.lmax[ch]) :
             if ((self.cte_flux_s[ch,l_last]/self.cte_flux_s[ch,l] < 0.9 ) and ( l_last < l )) :
                 # first test to only plot result for point different enough , second test to be sure that we have already selected something , third test (l<lamx[ch] )   to avoid to plot too saturated guy  
-                label="signal %5.1f e-" % (self.cte_flux_s[ch,l_last:l].mean(axis=0))
+                label="signal %5.1f %s" % (self.cte_flux_s[ch,l_last:l].mean(axis=0),unit)
                 yplt=self.cte_y_s[ch,l_last:l,:].mean(axis=0)
                 y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
                 y_max=max(min(np.max(yplt)*1.2,100.),y_max)
@@ -768,13 +778,18 @@ class cte :
                         plt.xlabel('column number (serial overscan)')
                     else :
                         plt.xlabel('line number (// overscan)')
-                    plt.ylabel('signal in e-')
+                    plt.ylabel('signal in '+unit)
                     ymax=max(y_max,y_min+1.)
                     plt.ylim(y_min,y_max)
                     if y_max>80. :
                         plt.yscale('symlog')
                     plt.xlim(self.first,self.first+27)
-                    plt.legend()
+                    if im == 0 :
+                        ax.yaxis.set_label_position("right")
+                        ax.yaxis.tick_right()
+                        plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
+                    else :
+                        plt.legend()
                     ax=fig.add_subplot(3,3,iplt)
                     iplt+=1
                     y_min=0
@@ -785,8 +800,8 @@ class cte :
                 plt.xlabel('column number (serial overscan)')
             else :
                 plt.xlabel('line number (// overscan)')
-            plt.ylabel('signal in e-')
-            label="signal %5.1f e-" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0))
+            plt.ylabel('signal in '+unit)
+            label="signal %5.1f %s" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
             yplt=self.cte_y_s[ch,l_last:self.lmax[ch],:].mean(axis=0)
             y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
             y_max=max(min(np.max(yplt)*1.2,100.),y_max)
