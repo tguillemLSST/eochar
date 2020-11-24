@@ -612,7 +612,7 @@ class cte :
         #
         pix_col=['b','c']
         pix_sym=['<','>']
-        fig=plt.figure(figsize=(10,10))
+        fig=plt.figure(figsize=(20,20))
         x=range(self.first,self.first+28)
         if self.serie :
             title="CTI Serial : "+label_header
@@ -650,8 +650,14 @@ class cte :
         iplt+=1
         y_min=1.
         y_max=0
-        for pix in range(2) : 
-            ylev=self.cte_y_s[ch,nf:self.lmax[ch],pix]/self.cte_flux_s[ch,nf:self.lmax[ch]]/float(self.nb_pixel)
+        for pix in range(2) :
+            try :
+                ylev=self.cte_y_s[ch,nf:self.lmax[ch],pix]/self.cte_flux_s[ch,nf:self.lmax[ch]]/float(self.nb_pixel)
+            except :
+                for i in range(len(ylev)) :
+                    if ylev[i]==np.inf or ylev[i]==np.nan :
+                        ylev[i]=0.
+            #
             label="pix + %d " % (pix+1)
             y_min=min(y_min,np.min(ylev))
             y_max=max(0.,np.max(ylev))
@@ -709,10 +715,12 @@ class cte :
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
                      self.cte_noise_s[ch,nf:self.lmax[ch]],yerr=self.cte_noise_s_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Noise from Overscan')
         try :
-            mean_noise=np.array([self.cte_noise_s[ch,ii]   for ii in range(nf,self.lmax[ch])   if self.cte_flux_s[ch,ii] > 1000 and self.cte_flux_s[ch,ii] < 50000]).mean()
-            xx=[self.cte_flux_s[ch,nf],self.cte_flux_s[ch,self.lmax[ch]-1]]
-            yy=[mean_noise,mean_noise]
-            plt.plot(xx,yy,'b--')
+            mean_noiseV=np.array([self.cte_noise_s[ch,ii]   for ii in range(nf,self.lmax[ch])   if self.cte_flux_s[ch,ii] > 1000 and self.cte_flux_s[ch,ii] < 50000])
+            if len(mean_noiseV)>0 : 
+                mean_noise=mean_noiseV.mean()            
+                xx=[self.cte_flux_s[ch,nf],self.cte_flux_s[ch,self.lmax[ch]-1]]
+                yy=[mean_noise,mean_noise]
+                plt.plot(xx,yy,'b--')
         except :
             pass
         if self.serie :
