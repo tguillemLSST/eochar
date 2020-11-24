@@ -629,7 +629,7 @@ class cte :
             yv=3.0e-6
         yy=[yv,yv]
 
-        fig.suptitle(title)
+        fig.suptitle(title,y=0.94)
         #fig.tight_layout()
         iplt=1
         ax=fig.add_subplot(3,3,iplt)
