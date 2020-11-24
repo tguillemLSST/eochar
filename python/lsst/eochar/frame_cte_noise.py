@@ -688,16 +688,24 @@ class cte :
         ax.yaxis.set_label_position("right")
         ax.yaxis.tick_right()
         iplt+=1
+        y_min=0.
+        y_max=0.
         for pix in range(2) : 
             label="pix + %d " % (pix+1)
             plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.cte_y_s[ch,nf:self.lmax[ch],pix],pix_sym[pix],color=pix_col[pix],label=label)
+        y_min=min(-1.,np.min(self.cte_y_s[ch,nf:self.lmax[ch],0:1]))
+        y_max=max(1.,np.max(self.cte_y_s[ch,nf:self.lmax[ch],0:1])*1.1)
         if self.serie :
             plt.xlabel('<flux> of last column in '+unit)
         else :
             plt.xlabel('<flux> of last line in '+unit)
         plt.ylabel('signal in overscan pixel(s) in '+unit)
         plt.xscale('log')
-        plt.yscale('symlog')
+        if y_max > 10. :
+            plt.yscale('symlog')
+        plt.plot([xx[0],xx[1]],[0.,0.],'--',color='black')
+        #
+        plt.ylim(y_min,y_max)    
         plt.xlim(xx[0],xx[1])
         plt.legend(loc=2)
         #plt.xticks(ticks_flux)
@@ -766,7 +774,10 @@ class cte :
             if ((self.cte_flux_s[ch,l_last]/self.cte_flux_s[ch,l] < 0.9 ) and ( l_last < l )) :
                 # first test to only plot result for point different enough , second test to be sure that we have already selected something , third test (l<lamx[ch] )   to avoid to plot too saturated guy
                 if im>1 :
-                    label="%5.1f in %s" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
+                    if self.serie :
+                        label="%5.1f %s in last Col. " % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
+                    else : 
+                        label="%5.1f %s in last Line" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
                 else :
                     label="%5.1f" % (self.cte_flux_s[ch,l_last:l].mean(axis=0))
                 yplt=self.cte_y_s[ch,l_last:l,:].mean(axis=0)
@@ -783,7 +794,7 @@ class cte :
                     else :
                         plt.xlabel('line number (// overscan)')
                     if im==0 or im==1 :
-                        plt.ylabel('signal in '+unit)
+                        plt.ylabel('Overscan Signal in '+unit)
                     ymax=max(y_max,y_min+1.)
                     plt.ylim(y_min,y_max)
                     if im==0 :   plt.plot([x[0],x[-1]],[0.,0.],'--',color='black')
@@ -806,8 +817,11 @@ class cte :
                 plt.xlabel('column number (serial overscan)')
             else :
                 plt.xlabel('line number (// overscan)')
-            if im<2 : plt.ylabel('signal in '+unit)
-            label="%5.1f in %s" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
+            if im<2 : plt.ylabel('Overscan Signal in '+unit)
+            if self.serie :
+                label="%5.1f %s in last Col. " % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
+            else : 
+                label="%5.1f %s in last Line" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
             yplt=self.cte_y_s[ch,l_last:self.lmax[ch],:].mean(axis=0)
             y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
             y_max=max(min(np.max(yplt)*1.2,100.),y_max)
