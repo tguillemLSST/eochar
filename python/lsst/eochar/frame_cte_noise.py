@@ -518,7 +518,7 @@ class cte :
                     self.cte_y_std[ch,i_cur,:]+=f.fluxp_last_std[ch][1:]**2
                     cte_noise_std[ch,i_cur,:]+=(f.fluxp_last_std[ch][1:])**2*f.fluxp_used[ch][1:]
                     self.overscan_std[ch,i_cur]+=(f.over4_line_std[ch])**2
-                if flux_last==0. : flux_last=1e-6
+                #if flux_last==0. : flux_last=1e-6
                 self.cte_flux[ch,i_cur]+=flux_last
         #    self.i_f+=1
         #fl=np.argsort(self.cte_flux,axis=1)
@@ -532,6 +532,8 @@ class cte :
             cte_sig=np.zeros((l_ft))
             #for l in fl[ch,:] :
             for l in ft[:] :
+                # protection against divide by 0 improbable ?
+                if self.cte_flux[ch,l]==0 : self.cte_flux[ch,l]=1.0e-6
                 self.cte_y_s[ch,l_k,:]=self.cte_y[ch,l,:]*gain[ch]/self.nb_file[l]
                 # remark that the 1/n below ...it's because sqrt(1/n) **2 is needed to get the error on the mean , and not the dispersion  . ...
                 self.cte_y_s_std[ch,l_k,:]=np.sqrt(self.cte_y_std[ch,l,:])*gain[ch]/self.nb_file[l]
