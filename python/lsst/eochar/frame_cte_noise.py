@@ -397,6 +397,9 @@ class datafile :
                 #self.Std_line.append(fitsfile[i].data[:,first_col:first_s_over].std(axis=1))
                 #self.Std_l60.append(fitsfile[i].data[:60,first_col:first_s_over].std())
                 # For CTE Serie
+                #
+                # REMARK : The size cut ( 28 , line +/- 10 ... ) are hard wired and used in CTE part of the code to compute statistic !!!!
+                #
                 self.fluxs_last.append(fitsfile[i].data[first_line+10:first_p_over-10,first_s_over-1:first_s_over+28].mean(axis=0)-fitsfile[i].data[first_line+10:first_p_over-10,first_s_over+15:].mean())
                 #
                 self.fluxs_last_std.append(fitsfile[i].data[first_line+10:first_p_over-10,first_s_over-1:first_s_over+28].std(axis=0)/np.sqrt(float(first_p_over-10-first_line-10)))
@@ -515,6 +518,7 @@ class cte :
                     self.cte_y_std[ch,i_cur,:]+=f.fluxp_last_std[ch][1:]**2
                     cte_noise_std[ch,i_cur,:]+=(f.fluxp_last_std[ch][1:])**2*f.fluxp_used[ch][1:]
                     self.overscan_std[ch,i_cur]+=(f.over4_line_std[ch])**2
+                if flux_last==0. : flux_last=1e-6
                 self.cte_flux[ch,i_cur]+=flux_last
         #    self.i_f+=1
         #fl=np.argsort(self.cte_flux,axis=1)
@@ -612,7 +616,7 @@ class cte :
         #
         pix_col=['b','c']
         pix_sym=['<','>']
-        fig=plt.figure(figsize=(20,20))
+        fig=plt.figure(figsize=(10,12))
         x=range(self.first,self.first+28)
         if self.serie :
             title="CTI Serial : "+label_header
@@ -651,12 +655,7 @@ class cte :
         y_min=1.
         y_max=0
         for pix in range(2) :
-            try :
-                ylev=self.cte_y_s[ch,nf:self.lmax[ch],pix]/self.cte_flux_s[ch,nf:self.lmax[ch]]/float(self.nb_pixel)
-            except :
-                for i in range(len(ylev)) :
-                    if ylev[i]==np.inf or ylev[i]==np.nan :
-                        ylev[i]=0.
+            ylev=self.cte_y_s[ch,nf:self.lmax[ch],pix]/self.cte_flux_s[ch,nf:self.lmax[ch]]/float(self.nb_pixel)
             #
             label="pix + %d " % (pix+1)
             y_min=min(y_min,np.min(ylev))
