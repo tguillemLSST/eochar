@@ -719,13 +719,13 @@ class cte :
         
         plt.xscale('log')
         plt.ylim(min(np.min(self.over8_18[ch,nf:self.lmax[ch]])*1.2,-0.5),min(10.,max(0.5,np.max(self.over8_18[ch,nf:max(nf+1,self.lmax[ch]-1)])*1.5)))
-        plt.legend(loc=2)       
+        plt.legend(loc=1)       
         ax=fig.add_subplot(3,3,iplt)
         ax.yaxis.set_label_position("right")
         iplt+=1
-        plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.overscan_std[ch,nf:self.lmax[ch]],'<',label='Frame Corner Noise')
+        plt.plot(self.cte_flux_s[ch,nf:self.lmax[ch]],self.overscan_std[ch,nf:self.lmax[ch]],'<',label='Corner Noise')
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
-                     self.cte_noise_s[ch,nf:self.lmax[ch]],yerr=self.cte_noise_s_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Image Frame Noise')
+                     self.cte_noise_s[ch,nf:self.lmax[ch]],yerr=self.cte_noise_s_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Frame Noise')
         try :
             mean_noiseV=np.array([self.cte_noise_s[ch,ii]   for ii in range(nf,self.lmax[ch])   if self.cte_flux_s[ch,ii] > 1000 and self.cte_flux_s[ch,ii] < 50000])
             if len(mean_noiseV)>0 : 
@@ -746,10 +746,10 @@ class cte :
         ymax_cc=max(min(30.,np.max(self.cte_noise_s[ch,nf:max(nf+1,self.lmax[ch]-2)])*1.2),10.)
         #print(ymax_cc,np.max(self.cte_noise_s[ch,nf:max(nf+1,self.lmax[ch]-5)])*1.5)
         plt.ylim(ymin_cc,ymax_cc)
-        if ymax_cc > 20  :
-            plt.legend(loc=2)
-        else :
-            plt.legend(loc=3)       
+        #if ymax_cc > 20  :
+        plt.legend(loc=1)
+        #else :
+        #    plt.legend(loc=3)       
         #
         ax=fig.add_subplot(3,3,iplt)
         iplt+=1
@@ -783,6 +783,7 @@ class cte :
                         plt.ylabel('signal in '+unit)
                     ymax=max(y_max,y_min+1.)
                     plt.ylim(y_min,y_max)
+                    if im==0 :   plt.plot([x[0],x[-1]],[0.,0.],'--',color='black')
                     if y_max>80. :
                         plt.yscale('symlog')
                     plt.xlim(self.first,self.first+27)
@@ -791,7 +792,7 @@ class cte :
                         ax.yaxis.tick_right()
                     #    plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
                     #else :
-                    plt.legend()
+                    plt.legend(loc=2)
                     ax=fig.add_subplot(3,3,iplt)
                     iplt+=1
                     y_min=0
@@ -802,7 +803,7 @@ class cte :
                 plt.xlabel('column number (serial overscan)')
             else :
                 plt.xlabel('line number (// overscan)')
-            plt.ylabel('signal in '+unit)
+            if im<2 : plt.ylabel('signal in '+unit)
             label="signal %5.1f %s" % (self.cte_flux_s[ch,l_last:self.lmax[ch]].mean(axis=0),unit)
             yplt=self.cte_y_s[ch,l_last:self.lmax[ch],:].mean(axis=0)
             y_min=min(max(min(np.min(yplt)*1.2,0.),-10.),y_min)
