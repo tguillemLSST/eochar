@@ -709,7 +709,7 @@ class cte :
         yy=[0.,0.]
         plt.plot(xx,yy,'b--')
         plt.errorbar(self.cte_flux_s[ch,nf:self.lmax[ch]],
-                      self.over8_18[ch,nf:self.lmax[ch]],yerr=self.over8_18_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Signal in Overscan[8:18]')
+                      self.over8_18[ch,nf:self.lmax[ch]],yerr=self.over8_18_std[ch,nf:self.lmax[ch]],fmt='o',color='r', ecolor='r',label='Signal Overscan[8:18]')
         if self.serie :
             plt.xlabel('<flux> of last column in '+unit)
             plt.ylabel('signal in '+unit+' in serial Overscan')
@@ -719,7 +719,7 @@ class cte :
         
         plt.xscale('log')
         plt.ylim(min(np.min(self.over8_18[ch,nf:self.lmax[ch]])*1.2,-0.5),min(10.,max(0.5,np.max(self.over8_18[ch,nf:max(nf+1,self.lmax[ch]-1)])*1.5)))
-        plt.legend(loc=1)       
+        plt.legend(loc=2)       
         ax=fig.add_subplot(3,3,iplt)
         ax.yaxis.set_label_position("right")
         iplt+=1
@@ -747,7 +747,7 @@ class cte :
         #print(ymax_cc,np.max(self.cte_noise_s[ch,nf:max(nf+1,self.lmax[ch]-5)])*1.5)
         plt.ylim(ymin_cc,ymax_cc)
         #if ymax_cc > 20  :
-        plt.legend(loc=1)
+        plt.legend(loc=2)
         #else :
         #    plt.legend(loc=3)       
         #
@@ -792,7 +792,7 @@ class cte :
                         ax.yaxis.tick_right()
                     #    plt.legend(bbox_to_anchor=(1.05, 1),loc=2, borderaxespad=0.)
                     #else :
-                    plt.legend(loc=2)
+                    plt.legend(loc=1)
                     ax=fig.add_subplot(3,3,iplt)
                     iplt+=1
                     y_min=0
