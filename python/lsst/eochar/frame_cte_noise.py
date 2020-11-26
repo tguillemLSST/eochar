@@ -340,7 +340,7 @@ class datafile :
 #                                                                                                              
 # self.Date=JdUtc(fitsfile[0].header['DATE']).Jd for i in range(len(fitsfile)):                                
         for i in range(1,min(17,len(fitsfile))):
-            if ('EXTNAME' in fitsfile[i].header ) :
+            if ( fitsfile[i].header['XTENSION'].strip()=='IMAGE' ) :
                 self.Hdu.append(i)
                 self.HduMax=i
                 # Remark : for the moment we don't which REB slice we are looki 
@@ -434,7 +434,10 @@ class datafile :
                     self.fluxp_used[-1][j]=len(fluxp_truncated)
                 #fluxp=np.array([ fitsfile[i].data[first_p_over-1:first_p_over+28,icol] - np.median(fitsfile[i].data[first_p_over+5:,icol ])  for icol in range(first_col+10,first_s_over-10)  ])
                 #self.fluxp_last.append(np.median(fluxp,axis=0))
-                # self.fluxp_last.append(np.median(fitsfile[i].data[first_p_over-1:first_p_over+28,first_col+10:first_s_over-10],axis=1)-np.median(fitsfile[i].data[first_p_over-1:first_p_over+28,first_s_over+5:first_s_over+15])) 
+                # self.fluxp_last.append(np.median(fitsfile[i].data[first_p_over-1:first_p_over+28,first_col+10:first_s_over-10],axis=1)-np.median(fitsfile[i].data[first_p_over-1:first_p_over+28,first_s_over+5:first_s_over+15]))
+            else:
+                # last image section read
+                break
         return
 class cte :
     def __init__(self, all_file, gain=[0.704650434205,0.68883578783,0.688459358774,0.696697494642,0.689209827484,0.696579402812,0.698973006751,0.689613072912,0.682880384357,0.696206655845,0.690349506621,0.691506176017,0.690763478766,0.689762341309,0.694801544092,0.850025229184 ],serie=True):
