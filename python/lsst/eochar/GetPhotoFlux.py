@@ -86,15 +86,19 @@ def GetPhotoFlux(filename,ExpTime):
         # step 3.2 : do a crude estimate of the  exposure time , using an renomalized length  for the first and last pixel 
         # ( not correct due to the start&ed expectd photodiode signal shape ... but the best  that can be done with the available information ) 
         tot_time_observed=delta[first]*photodiode[first,1]/photo_mean+delta[last]*photodiode[last,1]/photo_mean+photodiode[last,0]-photodiode[first+1,0]
-        # step 3.3 : We do expecte that the  requested ExpTime is the best estimate of the exposure time  (= could be biased but it as the lowest dispersion on the real ExpTime)
+        # step 3.3 : We do expecte that the  requested ExpTime is the best estimate of the exposure time  (= it has an offset but it as the lowest dispersion on the real ExpTime)
         #            Still we observed a few ( =1 in run 12877 : flat_ND_OD1.0_SDSSi_426.0_flat0_021 ) where the real exposure time  was significatly different from the requested one
-        #            in this case we consider  that the real exposure time is the tot_time_observed-delta[last] (delta[last] is there to unbias tot_time_observed~ExpTime )
-        OutOfTime=abs((ExpTime-tot_time_observed)/delta[last]+1.)
-        if OutOfTime>2.5 :
+        #            in this case we consider  that the real exposure time is a function of tot_time_observed (the function  is such that tot_time_observed = ExpTime ...as the ExpTime  is offseted , and the time from the photo-diode,tot_time_observed, is not in "second" unit ... yes yes )
+        if delta[last]<.1 :
+            Corected_Observed=tot_time_observed*0.99883708+0.03216984
+        else :
+            Corected_Observed=tot_time_observed*0.99931203+0.11776485           
+        OutOfTime=abs((ExpTime-Corected_Observed)/delta[last])            
+        if OutOfTime>1.3 :
             # The real exposure Time is significantly # for the exposure time measured by the photodiode 
             # we will fix it , but the precision in the estimated photodiode flux will be degraded ( and biased as the delta[last] above is not perfect as it changes with the sampling )
             # by the worse precision  in the exposure length : ~ 1 photodiode time slice ?   
-            PhotoFlux=photo_mean*(tot_time_observed-delta[last])
+            PhotoFlux=photo_mean*Corected_Observed
             PhotoFluxStd=np.sqrt((photo_noise/np.sqrt(last-first-1.)*ExpTime)**2+(photo_mean*delta[last])**2)
             print('WARNING : from file %s the flux is estimated with the exposure time estimated from the photodiode data (%f s) instead of the given EXPTIME (%f s)' % (filename,tot_time_observed-delta[last],ExpTime))  
         else :
