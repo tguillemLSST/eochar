@@ -90,9 +90,9 @@ def GetPhotoFlux(filename,ExpTime):
         #            Still we observed a few ( =1 in run 12877 : flat_ND_OD1.0_SDSSi_426.0_flat0_021 ) where the real exposure time  was significatly different from the requested one
         #            in this case we consider  that the real exposure time is a function of tot_time_observed (the function  is such that tot_time_observed = ExpTime ...as the ExpTime  is offseted , and the time from the photo-diode,tot_time_observed, is not in "second" unit ... yes yes )
         if delta[last]<.1 :
-            Corected_Observed=tot_time_observed*0.99883708+0.03216984
+            Corected_Observed=tot_time_observed*0.99883708-0.03216984
         else :
-            Corected_Observed=tot_time_observed*0.99931203+0.11776485           
+            Corected_Observed=tot_time_observed*0.99931203-0.11776485           
         OutOfTime=abs((ExpTime-Corected_Observed)/delta[last])            
         if OutOfTime>1.3 :
             # The real exposure Time is significantly # for the exposure time measured by the photodiode 
