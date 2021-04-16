@@ -203,7 +203,10 @@ class actfile :
                 self.Extname.append((fitsfile[i].header['EXTNAME']).strip())
                 self.Datasec.append((fitsfile[i].header['DATASEC']).strip())
                 self.Detsec.append((fitsfile[i].header['DETSEC']).strip())
-                self.Detsize.append((fitsfile[i].header['DETSIZE']).strip())
+                try :
+                    self.Detsize.append((fitsfile[i].header['DETSIZE']).strip())
+                except :
+                    self.Detsize.append((fitsfile[0].header['DETSIZE']).strip())
                 # size
                 last_l=len(fitsfile[i].data[:,0])
                 last_s=len(fitsfile[i].data[0,:])
