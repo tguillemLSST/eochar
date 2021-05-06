@@ -47,7 +47,7 @@ def image_area(image) :
 #
 class InFile :
    # Handel ( select et all ) file list from LSST ccd test bench 
-    def __init__(self,dirall=['/Users/antilog/scratch/20160901'],Pickle=False,root_for_pickle='/sps/lsst/DataBE/lpnws5203',fkey={},verbose=False,Slow=True,single_t=False,nskip=0,nkeep=-1):
+    def __init__(self,dirall=['/Users/antilog/scratch/20160901'],Pickle=False,root_for_pickle='/sps/lsst/DataBE/lpnws5203',fkey={},verbose=False,Slow=True,Bias='2D',single_t=False,nskip=0,nkeep=-1):
         # dirall : a list of directory/file   to read in  : the file header will be used to select or not the file if fkey is set  or the file will be read from the content of the pickle file (if Pickle is True ) , fkey will also be used for selection. 
         # fkey : {'selection_name' : {'fits_header_name':{'key':value} , ... }  : a triple  dictionary of { 'selection_name' : {header : {key:value}} } , to select a file 
         self.nkept=0
@@ -60,11 +60,11 @@ class InFile :
         self.nseen=0
         # loop on header 
         if Pickle : 
-            self.all_file_from_pickle(dirall=dirall,root_for_pickle=root_for_pickle,fkey=fkey,verbose=verbose,Slow=Slow,single_t=single_t,nskip=nskip,nkeep=nkeep)
+            self.all_file_from_pickle(dirall=dirall,root_for_pickle=root_for_pickle,fkey=fkey,verbose=verbose,Slow=Slow,Bias=Bias,single_t=single_t,nskip=nskip,nkeep=nkeep)
         else : 
-            self.all_file_from_dir(dirall=dirall,fkey=fkey,verbose=verbose,Slow=Slow,single_t=single_t,nskip=nskip,nkeep=nkeep)
+            self.all_file_from_dir(dirall=dirall,fkey=fkey,verbose=verbose,Slow=Slow,Bias=Bias,single_t=single_t,nskip=nskip,nkeep=nkeep)
         return
-    def all_file_from_dir(self,dirall,fkey,verbose,Slow,single_t,nskip,nkeep):
+    def all_file_from_dir(self,dirall,fkey,verbose,Slow,Bias,single_t,nskip,nkeep):
        # dirname : can be a directory name or a file with * at the moment it ends by .fz                                                                        
         #  ex : /Users/antilog/scratch/REB_DATA/20160513/linearity                                                                                               
         #  or : /Users/antilog/scratch/REB_DATA/20160513/linearity/reb3*.fz                                                                                      
@@ -137,7 +137,7 @@ class InFile :
                         if not(fits_is_open) :
                             fitsfile=pyfits.open(filenamed)
                             fits_is_open=True
-                        self.all_file.append(actfile(fitsfile,Slow))
+                        self.all_file.append(actfile(fitsfile,Slow,Bias))
                         self.selection.append((selection,filenamed))
                         # to be updated with a call to clap
                         #self.clap.append(new_time)
@@ -154,10 +154,18 @@ class InFile :
         return
                 
 class actfile :
-    def __init__(self, fitsfile,Slow=True):
-        # first_col : first colum to consider in the  mean and std deviation ..                                
+    def __init__(self, fitsfile,Slow=True,Bias='2D'):
+        #
+        # Input Param :
+        #    fitsfile : pyfits object with the image to process
+        #    Slow      :  True  : return : <> , var , nb_pix used , for each amplifier after bias subtraction  , but don't return the image
+        #                 False : return the image ( in Self.Image[amp][:,:] ) for each amplifier after Bias correction , but not the <> , var,...
+        #    Bias      : How the Bias correct is done :
+        #                 '2D'  : 2D bias correction using the  overscan line and column
+        #                 'Ct'  : 1 global bias number computed from all serial overscan   
+        #                                 
         # next line need care , as the memory will grow quickly
-        #self.fits=np.copy(fitsfile)
+        # self.fits=np.copy(fitsfile)
         self.Image=[]
         self.OverCol=[]
         self.OverLine=[]
@@ -223,12 +231,19 @@ class actfile :
                 # generate the 2D correction (thank's to numpy) 
                 over_cor_mean=mean_over_per_column+linef
                 # 2D correction of the overscan : 1 overscan subtracted per line , 1 overscan subtracted per column
-                if not(Slow) : 
-                    self.Image.append(fitsfile[i].data-over_cor_mean)
+                if not(Slow) :
+                    if Bias=='Ct' :
+                        self.Image.append(fitsfile[i].data-mean_over_per_line.mean())
+                    else :
+                        # if 2D or what ever else 
+                        self.Image.append(fitsfile[i].data-over_cor_mean)
                     self.OverCol.append(mean_over_per_column)
                     self.OverLine.append(mean_over_per_line)
                 else :
-                    Image_single=fitsfile[i].data-over_cor_mean
+                    if Bias=='Ct' :
+                        Image_single=fitsfile[i].data-mean_over_per_line.mean()
+                    else : 
+                        Image_single=fitsfile[i].data-over_cor_mean
                     IMean=np.zeros((nstepy,nstepx))
                     IVar=np.zeros((nstepy,nstepx))
                     INb=np.zeros((nstepy,nstepx))
