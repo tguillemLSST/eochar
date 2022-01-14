@@ -79,7 +79,7 @@ else :
 #get_ipython().run_line_magic('run', '-i  /home/antilog/repos/eochar/python/lsst/eochar/bot_frame_op.py')
 #run /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/bot_frame_op.py
 #correct?
-os.system('/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/python/lsst/eochar/bot_frame_op.py')
+os.system('python /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/python/lsst/eochar/bot_frame_op.py')
 print('bot_frame_op loaded')
 
 # activate the butler
@@ -87,12 +87,13 @@ print('bot_frame_op loaded')
 #butler = Butler(BOT_REPO_DIR)
 
 #repo_path = os.path.join(os.environ['RC2_SUBSET_DIR'], 'SMALL_HSC')
-repo_path = '/sps/lsst/groups/FocalPlane/SLAC/storage/20211221/MC_C_20211221_001369'
+#repo_path = '/sps/lsst/groups/FocalPlane/SLAC/storage/20211221/MC_C_20211221_001369'
+repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data'
 butler = Butler(repo_path)
-registry = butler.registry
-for col in registry.queryCollections():
-        print(col)
-
+#registry = butler.registry
+#for col in registry.queryCollections():
+#        print(col)
+#print('butler configured')
 
 # In[3]:
 
