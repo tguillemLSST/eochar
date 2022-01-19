@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# #Study of signal cavariance between channels in raft 
-# 
-# Goal : This Notebook will generate plots allowing to perform a diagnostic on the signal covariance between channels inside a raft   in BOT data .
-# 
+# Study of signal cavariance between channels in raft 
+# Goal : This Notebook will generate plots allowing to perform a diagnostic on the signal covariance between channels inside a raft in BOT data .
 # Author : P.Antilogus
-# 
 # Version : 21st January 2021 
-# 
-# New : To be run  at NCSA
-# 
-# 
+# New : Trying to run at CC-IN2P3 (T. Guillemin)
+
 # Method: 
 # 
 # Signal covariance,  is estimated using flat pair differences at 2 fluxes (SFLAT data) , and in BIAS 
@@ -22,17 +17,12 @@
 # In practice the covariance in BIAS is an offset present in all covriances , at high flux some new covariance pop up that are in most of the case an indication of gain common change between amplifier. 
 # 
 # The code plots the correlation per sensor and per raft . 
-# 
-# 
-
-# In[1]:
 
 # system imports
 import os
 import time
 from sys import exit 
 import glob
-#
 #import pdb 
 from astropy.time import Time
 
@@ -51,11 +41,6 @@ from lsst.daf.persistence import Butler
 #from lsst.ip.isr import IsrTask
 #import lsst.afw.geom as afwGeom
 #import lsst.afw.math as afwMath
-
-
-# In[2]:
-
-
 
 # do we use the eotest resultes for the gain
 display_in_electron=True
@@ -77,26 +62,19 @@ else :
     
 # load the frame analysis code 
 #get_ipython().run_line_magic('run', '-i  /home/antilog/repos/eochar/python/lsst/eochar/bot_frame_op.py')
-#run /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/bot_frame_op.py
-#correct?
+# this seems correct
 os.system('python /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/python/lsst/eochar/bot_frame_op.py')
 print('bot_frame_op loaded')
 
 # activate the butler
-#BOT_REPO_DIR = '/lsstdata/offline/teststand/BOT/gen2repo'
-#butler = Butler(BOT_REPO_DIR)
-
-#repo_path = os.path.join(os.environ['RC2_SUBSET_DIR'], 'SMALL_HSC')
-#repo_path = '/sps/lsst/groups/FocalPlane/SLAC/storage/20211221/MC_C_20211221_001369'
-repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data'
+repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_sflat_test'
 butler = Butler(repo_path)
+
+#check the butler content
 #registry = butler.registry
 #for col in registry.queryCollections():
 #        print(col)
 #print('butler configured')
-
-# In[3]:
-
 
 # CONFIGURATION FOR THE CURRENT EXECUTION  ========================================
 # ---- raft and associated run ============ To be updated if needed 
@@ -104,9 +82,9 @@ butler = Butler(repo_path)
 # 'run' :  list of run , ex : ['9876','9874']  (remark : run is a string )   for all run of this raft : '*' 
 # 'sensor' :  list of sensor , ex ['S00','S01','S02'] 
 # amplifier : list of amplifier , ex [1,2]  , for 1 to 16 you can use [-1] instead 
-run_all=['12680']
-#,'12606']
-#
+
+run_all=['13151']
+
 raft_itl=['R01', 'R02', 'R03', 'R10', 'R20', 'R41', 'R42', 'R43']
 raft_e2v=['R11', 'R12', 'R13', 'R14', 'R21', 'R22', 'R23', 'R24', 'R30', 'R31', 'R32', 'R33', 'R34']
 sensors_raft=['S00','S01','S02','S10','S11','S12','S20','S21','S22']
@@ -123,19 +101,17 @@ for raft in raft_corner:
 #
 amplifier=[-1]
 #
-raft=raft_itl+raft_e2v+raft_corner
+#raft=raft_itl+raft_e2v+raft_corner
 #raft=raft_corner
 #raft=['R23']
 #raft=['R10','R11','R12','R20','R21','R22','R30','R31','R32']
 #raft=['R00']
 ##
+raft=['R14']  
 
 # output file directory
-output_data='/home/antilog/DATA/eochar6'
-
-
-# In[4]:
-
+#output_data='/home/antilog/DATA/eochar6'
+output_data='/sps/lsst/users/tguillem/web'
 
 number_of_pair_per_run_max=40
 # number of # flux (=3 1 BIAS , 2 super flat  here , for high and low sflat exposure fluxes )
@@ -158,17 +134,22 @@ for run_cur in run_all :
         print('No good flat in run ',run_cur)
         continue
     #
+    print('--------visits_flat')
+    print(visits_flat)
+    print('--------')
     visits_flat.sort()
     visits=visits_bias[2:2+nb_bias]+visits_flat
     good_visits = []
     ptim=[]
     for visit1, visit2 in zip(visits[:-1:2], visits[1::2]):
-        dId = {'visit': visit1, 'detector': 2}
+        #dId = {'visit': visit1, 'detector': 2}
+        #correct value of 'detector'?
+        dId = {'visit': visit1, 'detector': 66}
         raw1 = butler.get('raw', **dId)
         time1 = raw1.getInfo().getVisitInfo().getExposureTime()
 
         # Get ISR data for second image
-        dId = {'visit': visit2, 'detector': 2}
+        dId = {'visit': visit2, 'detector': 66}
         raw2 = butler.get('raw', **dId)
         time2 = raw2.getInfo().getVisitInfo().getExposureTime()
         if abs(time1 - time2) > 0.01:
@@ -176,9 +157,11 @@ for run_cur in run_all :
         else :
             good_visits.append((visit1,visit2))
             ptim.append(time1)
+    print('--------End loop visits')        
     run.append(run_cur)
     irun=len(run)-1
     iflux=nb_flux
+    print(ptim)
     previous_time=ptim[-1]+1
     for ipair in range(len(ptim)-1,-1,-1) :
         if ptim[ipair] < previous_time :
