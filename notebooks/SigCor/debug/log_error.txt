@@ -1,0 +1,166 @@
+lsst.LsstCamMapper WARN: Unable to find valid calib root directory
+lsst.CameraMapper INFO: Loading exposure registry from /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_sflat_test/registry.sqlite3
+Bot_SigCovFluxSflatAndBias.py:71: FutureWarning: Gen2 Butler has been deprecated (Butler). It will be removed sometime after v23.0 but no earlier than the end of 2021.
+  butler = Butler(repo_path)
+Bot_SigCovFluxSflatAndBias.py:71: FutureWarning: Gen2 Butler has been deprecated (LsstCamMapper). It will be removed sometime after v23.0 but no earlier than the end of 2021.
+  butler = Butler(repo_path)
+DataId(initialdata={'visit': 3021120901672, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901673, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901674, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901675, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901676, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901677, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901678, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901679, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901680, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901681, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901682, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901683, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901684, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901685, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901686, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901687, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901708, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901709, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021120901710, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000001, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000002, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000003, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000004, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000005, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000006, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000007, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000008, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000009, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000010, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000011, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000012, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000013, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000014, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000015, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000016, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000017, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000018, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000020, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000021, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000022, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000023, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000024, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000025, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000026, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000027, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000028, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000029, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000030, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000031, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+DataId(initialdata={'visit': 3021121000032, 'detector': 66}, tag=set()): DETSEC doesn't match ((minimum=(0, 2002), maximum=(511, 4003)) != (minimum=(0, 0), maximum=(511, 2001)))
+argDict[boresightAirmass] is None; stripping
+lsst.CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+No access to eotest DB , so the gain of all devices will be set to 1 ( 1 ADU counted as 1 e- )
+bot_frame_op loaded
+--------visits_flat
+[3021121000024, 3021121000025, 3021121000026, 3021121000027, 3021121000028, 3021121000029, 3021121000030, 3021121000031, 3021121000032, 3021121000033, 3021120901708, 3021120901709, 3021120901710, 3021121000001, 3021121000002, 3021121000003, 3021121000004, 3021121000005, 3021121000006, 3021121000007, 3021121000008, 3021121000009, 3021121000010, 3021121000011, 3021121000012, 3021121000013, 3021121000014, 3021121000015, 3021121000016, 3021121000017, 3021121000018, 3021121000020, 3021121000021, 3021121000022, 3021121000023]
+--------
+Mismatched exptimes
+--------End loop visits
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 32.8319, 32.8319, 32.8319, 32.8319]
+Error , the exposure sequence is not the expected one (increasing exposure time with  3  different exposures time). List of time : [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 273.599, 32.8319, 32.8319, 32.8319, 32.8319]
+Execution stopped on Error
