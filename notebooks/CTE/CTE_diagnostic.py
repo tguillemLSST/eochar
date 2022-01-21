@@ -32,15 +32,8 @@
 #      for all channels ... but you can change this default value if you want  (0.7 is better for e2v and 0.9 for itl )  
 # 
 
-# In[ ]:
-
-
-get_ipython().run_line_magic('run', '-i ../../python/lsst/eochar/frame_study.py')
-get_ipython().magic('matplotlib inline')
-
-
-# In[ ]:
-
+import matplotlib
+from eochar.bot_frame_op import *
 
 # CONFIGURATION FOR THE CURRENT EXECUTION  ========================================
 # ---- raft and associated run ============ To be updated if needed 
@@ -64,10 +57,6 @@ parallel_plot=True
 # default gain if eotest data not available ( 0.7 is better of e2v , 0.9 for itl ) 
 default_gain=1.
 
-
-# In[ ]:
-
-
 import numpy as np
 import glob  
 try : 
@@ -82,36 +71,37 @@ except:
     print('No access to eotest DB , so the gain of all devices will be set to 1 ')
     eotest_db=False
 
-
-# In[ ]:
-
+# LSST stack imports
+from lsst.daf.persistence import Butler
 
 # the list of super flat for a raft - run : BNL_RAFT_ROOT+raft+'/'+run+'/cte_raft/*/*/'+'Sxx'+'/*_superflat_high.fits' 
 ##
-count = get_ipython().getoutput('set | grep  .ncsa.illinois.edu | wc')
-if int(count[0].split()[0])> 1 : 
-    NCSA=True
-else : 
-    NCSA=False
-if NCSA : 
-    SLACmirror='/project/rgruendl/SLACmirror'
-    # the list of super flat for a raft - run : BNL_RAFT_ROOT+raft+'/'+run+'/cte_raft/*/*/'+'Sxx'+'/*_superflat_high.fits' 
-    BNL_RAFT_ROOT=SLACmirror+'/BNLmirror/mirror/BNL-prod/prod/LCA-11021_RTM/LCA-11021_'
-    #
-    SLAC_RAFT_ROOT=SLACmirror+'/fs3/jh_archive/LCA-11021_RTM/LCA-11021_'
-else :
-    # the list of super flat for a raft - run : BNL_RAFT_ROOT+raft+'/'+run+'/cte_raft/*/*/'+'Sxx'+'/*_superflat_high.fits' 
-    BNL_RAFT_ROOT='/nfs/farm/g/lsst/u1/mirror/BNL-prod/prod/LCA-11021_RTM/LCA-11021_'
-    #
-    SLAC_RAFT_ROOT='/gpfs/slac/lsst/fs1/g/data/jobHarness/jh_archive/LCA-11021_RTM/LCA-11021_'
-    #
-    #
-# order in which they are added to ROOT should follow what will be given to 'data_location' 
-ROOT=[BNL_RAFT_ROOT,SLAC_RAFT_ROOT]
+if False:
+    count = get_ipython().getoutput('set | grep  .ncsa.illinois.edu | wc')
+    if int(count[0].split()[0])> 1 : 
+        NCSA=True
+    else : 
+        NCSA=False
+        if NCSA : 
+            SLACmirror='/project/rgruendl/SLACmirror'
+            # the list of super flat for a raft - run : BNL_RAFT_ROOT+raft+'/'+run+'/cte_raft/*/*/'+'Sxx'+'/*_superflat_high.fits' 
+            BNL_RAFT_ROOT=SLACmirror+'/BNLmirror/mirror/BNL-prod/prod/LCA-11021_RTM/LCA-11021_'
+            #
+            SLAC_RAFT_ROOT=SLACmirror+'/fs3/jh_archive/LCA-11021_RTM/LCA-11021_'
+        else :
+            # the list of super flat for a raft - run : BNL_RAFT_ROOT+raft+'/'+run+'/cte_raft/*/*/'+'Sxx'+'/*_superflat_high.fits' 
+            BNL_RAFT_ROOT='/nfs/farm/g/lsst/u1/mirror/BNL-prod/prod/LCA-11021_RTM/LCA-11021_'
+            #
+            SLAC_RAFT_ROOT='/gpfs/slac/lsst/fs1/g/data/jobHarness/jh_archive/LCA-11021_RTM/LCA-11021_'
+            #
+            #
+            # order in which they are added to ROOT should follow what will be given to 'data_location' 
+            ROOT=[BNL_RAFT_ROOT,SLAC_RAFT_ROOT]
 
-
-# In[ ]:
-
+print('read butler')
+# activate the butler
+repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_PTC'
+butler = Butler(repo_path)
 
 # how many run & sensor 
 sensor_dir=[]
