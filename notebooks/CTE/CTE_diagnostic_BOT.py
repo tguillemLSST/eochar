@@ -110,8 +110,9 @@ amplifier=[-1]
 #
 #raft=raft_itl+raft_e2v+raft_corner
 #raft=raft_corner
-raft=['R12']
-all_sensors['R12']=['S22']
+raft=['R14']
+#raft=['*']
+all_sensors['R14']=['S22']
 #all_sensors['R33']=['S00']
 #
 #directory to output data
