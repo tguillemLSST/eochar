@@ -32,9 +32,9 @@
 #      for all channels ... but you can change this default value if you want  (0.7 is better for e2v and 0.9 for itl )  
 # 
 
-# In[1]:
 
 from eochar.bot_frame_op import * 
+from eochar.frame_cte_noise import *
 
 # system imports
 import os
@@ -58,11 +58,6 @@ from lsst.ip.isr import IsrTask
 import lsst.afw.geom as afwGeom
 import lsst.afw.math as afwMath
 
-
-# In[2]:
-
-
-
 # do we use the eotest resultes for the gain
 display_in_electron=True
 #
@@ -84,15 +79,9 @@ else :
     eotest_db=False
     unit='ADU'
     
-# load the frame analysis code 
-#get_ipython().run_line_magic('run', '-i  /home/antilog/repos/eochar/python/lsst/eochar/frame_cte_noise.py')
-
 # activate the butler
 repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_PTC'
 butler = Butler(repo_path)
-
-# In[3]:
-
 
 # CONFIGURATION FOR THE CURRENT EXECUTION  ========================================
 # ---- raft and associated run ============ To be updated if needed 
@@ -122,15 +111,12 @@ amplifier=[-1]
 #raft=raft_itl+raft_e2v+raft_corner
 #raft=raft_corner
 raft=['R12']
-all_sensors['R33']=['S22']
+all_sensors['R12']=['S22']
 #all_sensors['R33']=['S00']
 #
 #directory to output data
 #root_dir='/home/antilog/DATA/6'
 root_dir='/sps/lsst/users/tguillem/web/PTC/'
-
-# In[4]:
-
 
 visits_all=[]
 run=[]
@@ -170,9 +156,6 @@ if number_of_run < 1 :
     raise 
 
 
-# In[5]:
-
-
 # CONFIGURATION FOR THE CURRENT EXECUTION  ========================================
 # Do we look for serial CTE ?
 serial=True
@@ -186,10 +169,6 @@ parallel_plot=True
 plot_on_screen=False
 # default gain if eotest data not available ( 0.7 is better of e2v , 0.9 for itl ) 
 default_gain=1.
-
-
-# In[6]:
-
 
 # create the data table with the right dimension 
 if parallel :
@@ -257,6 +236,7 @@ for irun in range(len(run)) :
                     file_name[irun,iraft,iccd]=[]
                     new=False 
                 file_name[irun,iraft,iccd].append(fileN)
+            print(file_name[irun,iraft,iccd])    
             print('- Analysis for CCD ',sensors[iccd],' using ',len(file_name[irun,iraft,iccd]),' files')  
             if len(file_name[irun,iraft,iccd])<1 : 
                 break 
