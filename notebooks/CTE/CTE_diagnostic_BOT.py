@@ -39,6 +39,7 @@ from eochar.frame_cte_noise import *
 # system imports
 import os
 import time
+import sys
 from sys import exit 
 import glob
 
@@ -61,6 +62,19 @@ import lsst.afw.math as afwMath
 # do we use the eotest resultes for the gain
 display_in_electron=True
 #
+print(os.environ['PYTHONPATH'])
+from eTraveler.clientAPI.connection import Connection
+print('OK1')
+#from importlib import import_module
+#datacat_utilities = import_module('datacat-utilities')
+#from datacat_utilities import datacat_utilities
+#from datacat-utilites import datacat-utilites
+#.get_EO_analysis_results import get_EO_analysis_results
+#datacat_utilities = __import__('datacat-utilities')
+sys.path.append("/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/database_eotest/datacat-utilities")
+#datacat_utilities = __import__('datacat-utilities')
+
+print('OK2')
 if display_in_electron :
     try : 
         from get_EO_analysis_results import get_EO_analysis_results
