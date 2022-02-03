@@ -62,17 +62,26 @@ import lsst.afw.math as afwMath
 # do we use the eotest resultes for the gain
 display_in_electron=True
 #
-print(os.environ['PYTHONPATH'])
+#print(os.environ['PYTHONPATH'])
 from eTraveler.clientAPI.connection import Connection
 print('OK1')
 #from importlib import import_module
 #datacat_utilities = import_module('datacat-utilities')
 #from datacat_utilities import datacat_utilities
 #from datacat-utilites import datacat-utilites
-#.get_EO_analysis_results import get_EO_analysis_results
+#from get_EO_analysis_results import get_EO_analysis_results
 #datacat_utilities = __import__('datacat-utilities')
-sys.path.append("/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/database_eotest/datacat-utilities")
+#sys.path.append("/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/database_eotest/datacat-utilities")
 #datacat_utilities = __import__('datacat-utilities')
+
+from get_EO_analysis_results import get_EO_analysis_results
+from get_EO_analysis_files import get_EO_analysis_files
+from exploreFocalPlane import exploreFocalPlane
+from exploreRaft import exploreRaft
+from eTraveler.clientAPI.connection import Connection
+#g = get_EO_analysis_results(db=DB_key[data_to_select['Data_location']])
+g = get_EO_analysis_results(db='Dev')
+eotest_db=True
 
 print('OK2')
 if display_in_electron :
@@ -94,8 +103,8 @@ else :
     unit='ADU'
     
 # activate the butler
-repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_PTC'
-butler = Butler(repo_path)
+#repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_PTC'
+#butler = Butler(repo_path)
 
 # CONFIGURATION FOR THE CURRENT EXECUTION  ========================================
 # ---- raft and associated run ============ To be updated if needed 
@@ -131,7 +140,19 @@ all_sensors['R14']=['S22']
 #
 #directory to output data
 #root_dir='/home/antilog/DATA/6'
-root_dir='/sps/lsst/users/tguillem/web/PTC/'
+#root_dir='/sps/lsst/users/tguillem/web/PTC/'
+
+print('Configuration arguments: ', str(sys.argv))
+str_run_all = str(sys.argv[1])
+str_raft = str(sys.argv[2])
+str_all_sensors = str(sys.argv[3])
+repo_path=str(sys.argv[4])
+root_dir=str(sys.argv[5])
+
+run_all=[str_run_all]
+raft=[str_raft]
+all_sensors[str_raft]=[str_all_sensors]
+butler = Butler(repo_path)
 
 visits_all=[]
 run=[]
