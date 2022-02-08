@@ -120,7 +120,7 @@ str_run_all = str(sys.argv[1])
 str_raft = str(sys.argv[2])
 str_all_sensors = str(sys.argv[3])
 repo_path=str(sys.argv[4])
-root_dir=str(sys.argv[5])
+output_data==str(sys.argv[5])
 
 run_all=[str_run_all]
 raft=[str_raft]
