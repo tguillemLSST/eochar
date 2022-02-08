@@ -63,12 +63,14 @@ else :
 # load the frame analysis code 
 #get_ipython().run_line_magic('run', '-i  /home/antilog/repos/eochar/python/lsst/eochar/bot_frame_op.py')
 # this seems correct
-os.system('python /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/python/lsst/eochar/bot_frame_op.py')
-print('bot_frame_op loaded')
+#os.system('python /sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/eochar/python/lsst/eochar/bot_frame_op.py')
+#print('bot_frame_op loaded')
+#from ...python/lsst/eochar import bot_frame_op
+from eochar.bot_frame_op import *
 
 # activate the butler
-repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_sflat_test'
-butler = Butler(repo_path)
+#repo_path = '/sps/lsst/users/tguillem/Rubin/Focal_Plane/lsst_distrib/w_2022_01/data_sflat_test'
+#butler = Butler(repo_path)
 
 #check the butler content
 #registry = butler.registry
@@ -112,6 +114,18 @@ raft=['R14']
 # output file directory
 #output_data='/home/antilog/DATA/eochar6'
 output_data='/sps/lsst/users/tguillem/web'
+
+print('Configuration arguments: ', str(sys.argv))
+str_run_all = str(sys.argv[1])
+str_raft = str(sys.argv[2])
+str_all_sensors = str(sys.argv[3])
+repo_path=str(sys.argv[4])
+root_dir=str(sys.argv[5])
+
+run_all=[str_run_all]
+raft=[str_raft]
+all_sensors[str_raft]=[str_all_sensors]
+butler = Butler(repo_path)
 
 number_of_pair_per_run_max=40
 # number of # flux (=3 1 BIAS , 2 super flat  here , for high and low sflat exposure fluxes )
@@ -164,7 +178,8 @@ for run_cur in run_all :
     print(ptim)
     previous_time=ptim[-1]+1
     for ipair in range(len(ptim)-1,-1,-1) :
-        if ptim[ipair] < previous_time :
+        #if ptim[ipair] < previous_time :
+        if ptim[ipair] != previous_time :   
             iflux-=1
             if iflux<0 :
                 print('Error , the exposure sequence is not the expected one (increasing exposure time with ',nb_flux,' different exposures time). List of time :',ptim)
@@ -196,9 +211,7 @@ if number_of_run < 1 :
     print('No data found')
     raise 
 
-
-# In[5]:
-
+print('Config OK')
 
 def find_pair(raft_cur):
     # compute the noise per image
@@ -226,10 +239,6 @@ def find_pair(raft_cur):
                         break
                     all_file[irun,iccd,it,ifile]=file
     return  all_file          
-
-
-# In[7]:
-
 
 def sig_cor_in_raft(raft_cur,all_file,show_raft=True,show_ccd=False,per_sensor=False):
     #
@@ -599,10 +608,6 @@ def sig_cor_in_raft(raft_cur,all_file,show_raft=True,show_ccd=False,per_sensor=F
 #    return noise,noise_std,cor
     return 
 
-
-# In[8]:
-
-
 #noise=np.zeros((number_of_raft,number_of_run,number_of_sensor*16)) 
 #noise_std=np.zeros((number_of_raft,number_of_run,number_of_sensor*16)) 
 #cor=np.zeros((number_of_raft,number_of_run,144,144))
@@ -614,10 +619,3 @@ for iraft in range(len(raft)) :
     # do all the correlation plots for this raft and all run 
     sig_cor_in_raft(raft_cur,all_file,show_raft=True,show_ccd=False,per_sensor=True)
     #
-
-
-# In[ ]:
-
-
-
-
